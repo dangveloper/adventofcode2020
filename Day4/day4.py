@@ -43,31 +43,44 @@ for p in passports:
 # %% Part 2
 
 nbr_valid = 0
+
 for p in valid_passports:
     correct = 0
     for k, v in p.items():
         
         if k == 'byr':
             if len(v) != 4 or not (1920 <= int(v) <= 2002):
+                
                 break
         if k == 'iyr':
             if len(v) != 4 or not (2010 <= int(v) <= 2020):
+                
                 break
         if k == 'eyr':
             if len(v) != 4 or not (2020 <= int(v) <= 2030):
+                
                 break
             
             
         if k == 'hgt':
-            if 'c' in v:
-                try:
-                    if not (150 <= int(v[0:3]) <= 193):
-                        break
-                except:
+            
+            height = ''
+            unit = ''
+            for c in v:
+                if c.isnumeric():
+                    height += c
+                if c.isalpha():
+                    unit += c
+
+            if 'cm' == unit:
+                
+                if not (150 <= int(height) <= 193):
                     break
                 
-            if 'i' in v:
-                if not (59 <= int(v[0:2]) <= 76):
+            if 'in' == unit:
+                
+                if not (59 <= int(height) <= 76):
+                    
                     break
                 
                 
@@ -75,16 +88,16 @@ for p in valid_passports:
                 
         if k == 'hcl':
             
+            if len(v[1:]) != 6:
+                break
             if v[0] != '#':
                 break
-            if len(v[1:]) != 6: # möjligt fel
-                break
-            v_split = v.split()
-            for c in v_split:
-                print(c)
-                if not (c.isalpha() or c.isnumber()):
+            
+
+            for c in v[1:]:
+                if not (c.isnumeric() or c in 'abcdef'):
                     break
-                    
+            
             
             
             
@@ -93,13 +106,15 @@ for p in valid_passports:
                 break
             
         if k == 'pid':
-            try:
-                if len(v) != 9 or int(v) < -100: # möjligt fel
-                    break
-            except:
+            if len(v) != 9:
+                # möjligt fel
                 break
+            if not v.isnumeric():
+                print(v)
+                break
+
             
         correct += 1
-        
+    
     if correct == 7 or correct == 8:
         nbr_valid += 1
