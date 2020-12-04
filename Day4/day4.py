@@ -71,7 +71,9 @@ for p in valid_passports:
                     height += c
                 if c.isalpha():
                     unit += c
-
+            if unit == '':
+                break
+            
             if 'cm' == unit:
                 
                 if not (150 <= int(height) <= 193):
@@ -82,7 +84,7 @@ for p in valid_passports:
                 if not (59 <= int(height) <= 76):
                     
                     break
-                
+            
                 
                 
                 
